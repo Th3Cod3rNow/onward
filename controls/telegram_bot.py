@@ -28,10 +28,11 @@ handler = Handler()
 def chatting(update, bot, get_ans = False, ready_message = None):
     answer = handler.processing(update["message"])
     print(answer)
-    if isinstance(answer[0], int) and isinstance(answer[1], str):
-        sender.send_text(bot.bot, *answer)
-    else:
-        sender.send_text(bot.bot, update["message"]["from_user"]["id"], "Не понял вас")
+    if answer:
+        if isinstance(answer[0], int) and isinstance(answer[1], str):
+            sender.send_text(bot.bot, *answer)
+        else:
+            sender.send_text(bot.bot, update["message"]["from_user"]["id"], "Не понял вас")
 
 def main():
     updater = Updater(token, use_context=True)

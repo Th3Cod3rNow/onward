@@ -36,7 +36,7 @@ class DataBase:
         cursor = self.connection.cursor()
         cursor.execute(
             '''
-            INSERT INTO video (user_name, password)
+            INSERT INTO users (user_name, password)
             VALUES (?,?)
             ''',
             (user_name, password,),
@@ -48,10 +48,6 @@ class DataBase:
         return new_id
 
     def get_last_user(self) -> list:
-        """
-        Returns last video in table
-        :return last:
-        """
         cursor = self.connection.cursor()
         cursor.execute(
             '''
@@ -81,10 +77,6 @@ class DataBase:
         return new_id
 
     def get_last_task(self) -> list:
-        """
-        Returns last video in table
-        :return last:
-        """
         cursor = self.connection.cursor()
         cursor.execute(
             '''
@@ -93,6 +85,32 @@ class DataBase:
         last = cursor.fetchone()
         cursor.close()
         return last
+
+    def get_user_by_telegram_id(self, telegram_id):
+        if telegram_id:
+            cursor = self.connection.cursor()
+            cursor.execute(
+                '''
+                SELECT * FROM users WHERE telegram_id = ?
+                ''',
+                (telegram_id,))
+            user = cursor.fetchone()
+            cursor.close()
+            return user
+        return False
+
+    def get_user_by_alice_id(self, alice_id):
+        if alice_id:
+            cursor = self.connection.cursor()
+            cursor.execute(
+                '''
+                SELECT * FROM users WHERE alice_id = ?
+                ''',
+                (alice_id,))
+            user = cursor.fetchone()
+            cursor.close()
+            return user
+        return False
 
     def get_user_by_user_name(self, user_name:str) -> list:
         if user_name:
@@ -106,7 +124,7 @@ class DataBase:
             user = cursor.fetchone()
             cursor.close()
             return user
-        return list()
+        return False
     def update_user_by_user_id(self, user_id, params):
         if params and user_id:
             values = params.values()
