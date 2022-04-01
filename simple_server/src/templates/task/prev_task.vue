@@ -1,10 +1,10 @@
 <template>
   <div class="col">
-    <div class="card shadow-sm" style="width: 350px; height: 300px">
-      <div class="card-body">
+    <div class="task" >
+      <div class="card">
         <h3 class="card-text">{{ task.title }}</h3>
         <hr>
-        <h5 >{{task.body}}</h5>
+        <h5 class="card-text" >{{task.body}}</h5>
       <my-btn
       @click="$emit('open',task)"
       >open</my-btn>
@@ -32,9 +32,25 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-  max-width: 15%;
-  max-height: 20%;
   -webkit-user-select: none;
 }
+.task{
+  -webkit-user-select: none;
+  display: block;
+  position: static;
+  margin: 2vh 5vw;
+  width: 20vw;
+  height: 20vh;
+}
+.card{
 
+  width: 20vw;
+  height: 20vh;
+
+  position: absolute;
+}
+.card-text{
+  margin: 1vh 1vw;
+  max-height: 20vh;
+}
 </style>

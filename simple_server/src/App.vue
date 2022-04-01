@@ -1,20 +1,25 @@
 <template>
-    <div class="app">
+<div class="app">
+  <div class="page">
+    <div class="tmp">
+          <my-bar
+          v-bind:groups="this.groups"
+          ></my-bar>
+    </div>
 
-  <div class="tmp">
-        <my-bar></my-bar>
-      <div class="menu" >
-        <all-tasks
-        v-bind:tasks="tasks"
-        @open="open"
-        ></all-tasks>
-      </div>
+    <div class="menu" >
+          <all-tasks
+          v-bind:tasks="tasks"
+          @open="open"
+          ></all-tasks>
+    </div>
+  </div>
     <full-task v-if="op"
       v-bind:task="opened"
       @close="changeop"
     ></full-task>
-  </div>
-    </div>
+
+</div>
 </template>
 
 <script>
@@ -28,7 +33,7 @@ export default {
         {id: 0, title: 'название', body: 'Описание', status: 'никто не выполняет'},
         {id: 1, title: 'название', body: 'Описание', status: 'никто не выполняет'},
         {id: 2, title: 'r', body: 'Описание', status: 'никто не выполняет'},
-        {id: 3, title: 'название', body: 'Описание', status: 'никто не выполняет'},
+        {id: 3, title: 'название', body: 'Описаggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggние', status: 'никто не выполняет'},
         {id: 4, title: 'название', body: 'Описание', status: 'никто не выполняет'},
         {id: 5, title: 'название', body: 'Описание', status: 'никто не выполняет'},
 
@@ -41,7 +46,10 @@ export default {
       opened:{
           type:Object
       },
-      op: false
+      op: false,
+      groups:[
+        {id: 0, name: 'some', }
+      ]
     }
   },
   methods:{
@@ -59,9 +67,15 @@ export default {
 
 <style>
 .tmp{
-  display: flex;
-
+    width: 10%;
+    background: white;
 }
 .menu{
+    margin: 3%;
+}
+.page{
+  display: flex;
+  height: 100vh;
+  background: green;
 }
 </style>
