@@ -10,9 +10,15 @@ class Controller:
         self.BD = data_base.DataBase(way=path + "/DATABASES/users")
 
         self.base_user_params = {
-            "task_list": list,
-            "telegram_id": int,
-            "alice_id": str
+            "task_list",
+            "telegram_id",
+            "alice_id"
+        }
+        self.base_task_params = {
+            "description",
+            "task_name",
+            "performer_id",
+            "completed"
         }
 
     def log_in(self, user_name: str, password: str, telegram_id=None, alice_id=None):
@@ -53,18 +59,29 @@ class Controller:
         return False
 
     def update_user_base_params(self, user_id, params):
-        if params in self.base_user_params and user_id:
-            update = self.BD.update_user_by_user_id(user_id, params)
+        updating_params = set(params.keys()) & self.base_user_params
+        if len(updating_params) > 0 and user_id:
+            update = self.BD.update_user_by_user_id(user_id, updating_params)
             if update:
                 return True
             return False
         else:
             return False
 
-    def create_task(self, author_id, performer_id, name, description, completed=False):
-        if author_id and performer_id and name and description:
-            insertion = self.BD.insert_task(name, description, author_id, performer_id, completed)
+    def create_task(self, author_id, name):
+        if author_id and name:
+            insertion = self.BD.insert_task(name, author_id)
             if insertion:
+                return insertion
+            return False
+        return False
+
+    def update_task(self, task_id, params):
+        print(set(params.keys()) in self.base_task_params, set(params.keys()), self.base_task_params)
+        updating_params = set(params.keys()) & self.base_task_params
+        if len(updating_params) > 0 and task_id:
+            update = self.BD.update_task_by_task_id(task_id, updating_params)
+            if update:
                 return True
             return False
         return False

@@ -6,12 +6,15 @@ class Handler:
         self.commands = {
             "/start": self.start,
             "LOGIN": self.log_in,  # <username> \n <password>
-            "CREATE": self.create_user  # <username> \n <password>
+            "CREATE": self.create_user,  # <username> \n <password>
+            "/newtask": self.new_task,
+            "task_name": self.create_task,
+            "task_description": self.task_description
         }
 
         self.controller = Controller()
 
-    def processing(self, message):
+    def processing(self, message, context = None):
         body = message["text"]
         user_tg_id = message["from_user"]["id"]
         self.user = self.controller.get_user_by_telegram_id(user_tg_id)
@@ -20,6 +23,12 @@ class Handler:
             return answer
         if body.split('\n')[0] in self.commands:
             answer = self.commands[body.split('\n')[0]](body, user_tg_id)
+            return answer
+        if context == "task_name":
+            answer = self.commands[context](body, user_tg_id)
+            return answer
+        if context.startswith("task_description"):
+            answer = self.commands["task_description"](body, user_tg_id, int(context.split()[1]))
             return answer
 
     def user_doesnt_logged_in(self, body, user_tg_id):
@@ -32,7 +41,7 @@ class Handler:
             if self.user and self.user[4]:
                 answer = "У вас уже есть аккаунт"
             else:
-                LOGIN = self.controller.log_in(splitted[1], splitted[2], int(user_tg_id))
+                LOGIN = self.controller.log_in(splitted[1], splitted[2], telegram_id=(user_tg_id))
                 if LOGIN:
                     answer = "Вход произошел успешно"
                 else:
@@ -56,4 +65,19 @@ class Handler:
         else:
             answer = "Неверный формат ввода. Убедитесь, что ввели сообщение в следующем формате:\nCREATE\n<username>\n<password>"
 
+        return (int(user_tg_id), answer)
+
+    def new_task(self, body, user_tg_id):
+        answer = "Введите название задания"
+        return (int(user_tg_id), answer, "task_name")
+
+    def create_task(self, body, user_tg_id):
+        task_id = self.controller.create_task(self.controller.get_user_by_telegram_id(user_tg_id)[0], body)
+        answer = "Задание создано\nВведите описание задания"
+        return (int(user_tg_id), answer, "task_description " + str(task_id))
+
+    def task_description(self, body, user_tg_id, task_id):
+        params = {"description":body}
+        self.controller.update_task(task_id, params)
+        answer = "Задание создано. Номер задания: "+str(task_id)
         return (int(user_tg_id), answer)
