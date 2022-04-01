@@ -61,7 +61,7 @@ class DataBase:
         cursor = self.connection.cursor()
         cursor.execute(
             '''
-            INSERT INTO tasks (task_name,author_id)
+            INSERT INTO tasks (task_name, author_id)
             VALUES (?,?)
             ''',
             (task_name, author_id,),
@@ -159,7 +159,70 @@ class DataBase:
         else:
             return False
 
+    def insert_group(self, group_name):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            '''
+            INSERT INTO groups (name)
+            VALUES (?)
+            ''',
+            (group_name,),
+        )
+        new_id = self.get_last_group()[0]
+        cursor.close()
+        self.connection.commit()  # save changes
+        return new_id
 
+
+    def get_last_group(self) -> list:
+        cursor = self.connection.cursor()
+        cursor.execute(
+            '''
+            SELECT MAX(group_id) FROM groups
+            ''')
+        last = cursor.fetchone()
+        print(last)
+        cursor.close()
+        return last
+
+    def get_task_by_task_name(self, task_name):
+        if task_name:
+            cursor=self.connection.cursor()
+            cursor.execute(
+                '''
+                SELECT * FROM groups WHERE name = ?
+                ''',
+                (task_name,)
+            )
+            task = cursor.fetchone()
+            cursor.close()
+            return task
+        return False
+
+    def get_task_by_task_id(self, task_id):
+        if task_id:
+            cursor=self.connection.cursor()
+            cursor.execute(
+                '''
+                SELECT * FROM groups WHERE task_id = ?
+                ''',
+                (task_id,)
+            )
+            task = cursor.fetchone()
+            cursor.close()
+            return task
+        return False
+
+    def get_group_by_group_id(self, group_id):
+        cursor = self.connection.cursor()
+
+        cursor.execute(
+            '''
+            SELECT * FROM groups WHERE group_id = ?
+            ''', (group_id,))
+        group = cursor.fetchone()
+        cursor.close()
+        return group
     def __del__(self):
         if self.connection:
             self.connection.close()

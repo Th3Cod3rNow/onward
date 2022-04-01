@@ -85,3 +85,33 @@ class Controller:
                 return True
             return False
         return False
+
+    def create_group(self, group_name):
+        if group_name:
+            insertion = self.BD.insert_group(group_name)
+            if insertion:
+                return True
+            return False
+        return False
+
+    def get_task_by_task_name(self, task_name):
+        if task_name:
+            task = self.BD.get_task_by_task_name(task_name)
+            return task
+        return False
+
+    def get_task_by_task_id(self, task_id):
+        if task_id:
+            task = self.BD.get_task_by_task_name(task_id)
+            return task
+        return False
+
+    def get_group_by_group_id(self, group_id):
+        if group_id:
+            group = self.BD.get_group_by_group_id(group_id)
+            if group:
+                return group
+            return False
+        return False
+    def get_group_by_group_name(self, group_name):
+        pass

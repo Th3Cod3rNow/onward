@@ -9,7 +9,9 @@ class Handler:
             "CREATE": self.create_user,  # <username> \n <password>
             "/newtask": self.new_task,
             "task_name": self.create_task,
-            "task_description": self.task_description
+            "task_description": self.task_description,
+            "/newgroup": self.create_group,
+            "/task": self.get_task
         }
 
         self.controller = Controller()
@@ -21,15 +23,16 @@ class Handler:
         if not self.user and len(body.split('\n')) > 0 and body.split('\n')[0] != 'LOGIN':
             answer = self.user_doesnt_logged_in(body, user_tg_id)
             return answer
-        if body.split('\n')[0] in self.commands:
-            answer = self.commands[body.split('\n')[0]](body, user_tg_id)
+        if body.split('\n')[0].split()[0] in self.commands:
+            answer = self.commands[body.split('\n')[0].split()[0]](body, user_tg_id)
             return answer
-        if context == "task_name":
-            answer = self.commands[context](body, user_tg_id)
-            return answer
-        if context.startswith("task_description"):
-            answer = self.commands["task_description"](body, user_tg_id, int(context.split()[1]))
-            return answer
+        if context:
+            if context == "task_name":
+                answer = self.commands[context](body, user_tg_id)
+                return answer
+            if context.startswith("task_description"):
+                answer = self.commands["task_description"](body, user_tg_id, int(context.split()[1]))
+                return answer
 
     def user_doesnt_logged_in(self, body, user_tg_id):
         answer = "Вы не вошли в аккаунт. Чтобы войти в аккаунт введите:\nLOGIN\n<username>\n<password>"
@@ -64,12 +67,23 @@ class Handler:
                 answer = "Ошибка ввода. Убедитесь, что ввели сообщение в следующем формате:\nCREATE\n<username>\n<password>"
         else:
             answer = "Неверный формат ввода. Убедитесь, что ввели сообщение в следующем формате:\nCREATE\n<username>\n<password>"
-
         return (int(user_tg_id), answer)
 
     def new_task(self, body, user_tg_id):
         answer = "Введите название задания"
         return (int(user_tg_id), answer, "task_name")
+
+    def create_group(self, body, user_tg_id):
+        group_name = ' '.join(body.split()[1:])
+        try:
+            creation = self.controller.create_group(group_name)
+        except Exception:
+            creation=False
+        if creation:
+            answer = "Группа создана"
+        else:
+            answer = "Ошибка создания группы"
+        return (int(user_tg_id), answer)
 
     def create_task(self, body, user_tg_id):
         task_id = self.controller.create_task(self.controller.get_user_by_telegram_id(user_tg_id)[0], body)
@@ -81,3 +95,16 @@ class Handler:
         self.controller.update_task(task_id, params)
         answer = "Задание создано. Номер задания: "+str(task_id)
         return (int(user_tg_id), answer)
+
+
+    def get_task(self, body, user_tg_id):
+        if len(body.split()) == 2:
+            task_id = body.split()[1]
+            if task_id.isdigit():
+                task_id = int(task_id)
+                task = self.controller.get_task_by_task_id(task_id)
+                if task:
+                    answer = "Вот информация о задании"
+
+                else:
+                    answer = "Задание не найдено"

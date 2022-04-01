@@ -30,10 +30,8 @@ def chatting(update, context):
     global STATE
 
     answer = handler.processing(update["message"], context=STATE)
-    print(STATE, answer)
     if answer and update:
-        print(answer, update)
-        if len(answer) > 2:
+        if len(answer) == 3:
             STATE = answer[2]
             sender.send_text(update.message, *answer[:2])
         else:
