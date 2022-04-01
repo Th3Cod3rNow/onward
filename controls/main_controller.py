@@ -28,14 +28,15 @@ class Controller:
                 if telegram_id:
                     update = self.BD.update_user_by_user_name(user_name, {"telegram_id": telegram_id})
                     if update:
-                        return True
+                        return user
                     return False
-                if alice_id:
+                elif alice_id:
                     update = self.BD.update_user_by_user_name(user_name, {"alice_id": alice_id})
                     if update:
-                        return True
+                        return user
                     return False
-                return True
+                else:
+                    return user
 
             return False
         return False
@@ -113,5 +114,3 @@ class Controller:
                 return group
             return False
         return False
-    def get_group_by_group_name(self, group_name):
-        pass

@@ -98,13 +98,16 @@ class Handler:
 
 
     def get_task(self, body, user_tg_id):
+        answer = "Ошибка"
         if len(body.split()) == 2:
             task_id = body.split()[1]
             if task_id.isdigit():
                 task_id = int(task_id)
                 task = self.controller.get_task_by_task_id(task_id)
                 if task:
-                    answer = "Вот информация о задании"
-
+                    answer = "Вот информация о задании\nНазвание:\n"+task[1]+"\nОписание:\n"+task[2]+"\nГруппа задания: "+ str(task[6])+"\nГотовность:" + str(task[5])
+                    return (int(user_tg_id), answer, "task_keyboard", task_id)
                 else:
                     answer = "Задание не найдено"
+
+        return (int(user_tg_id), answer)

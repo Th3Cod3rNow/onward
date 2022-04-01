@@ -1,4 +1,5 @@
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Inline
 import data_base
 import telegram_handler
 import random
@@ -34,6 +35,20 @@ def chatting(update, context):
         if len(answer) == 3:
             STATE = answer[2]
             sender.send_text(update.message, *answer[:2])
+        if len(answer) == 5:
+            STATE = answer[2]
+            if answer[3] == 'task_keyboard':
+                keyboard = [
+                    [
+                        InlineKeyboardButton("Поменять описание", callback_data='change_description_group ' + str(answer[4])),
+                        InlineKeyboardButton("Изменить группу", callback_data='change_description_group ' + str(answer[4]))
+                    ],
+                    [
+                        InlineKeyboardButton("Взять задание", callback_data='take_task' + str(answer[4]) + ' ' + str(answer[0]))
+                    ]
+                ]
+
+
         else:
             STATE = None
             if isinstance(answer[0], int) and isinstance(answer[1], str):
