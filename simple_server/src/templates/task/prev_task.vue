@@ -2,9 +2,9 @@
   <div class="col">
     <div class="task" >
       <div class="card">
-        <h3 class="card-text">{{ task.title }}</h3>
+        <h3 class="card-text">{{ task[1] }}</h3>
         <hr>
-        <h5 class="card-text" >{{task.body}}</h5>
+        <h5 class="card-text" >{{task[2]}}</h5>
       <my-btn
       @click="$emit('open',task)"
       >open</my-btn>

@@ -9,7 +9,7 @@ class Controller:
     def __init__(self):
         path = str(Path(__file__).resolve().parent.parent)
         sys.path.insert(0, path)
-        self.BD = data_base.DataBase(way=path + "/DATABASES/users")
+        self.BD = data_base.DataBase(way=path + "/DATABASES/users0")
 
         self.base_user_params = {
             "task_list",
@@ -78,6 +78,7 @@ class Controller:
         return False
     def get_tasks_by(self, parameter, value):
         tasks = self.BD.get_tasks_by(parameter, value)
+        return tasks
     def update_task(self, task_id, params):
         updating_params = set(params.keys()) & self.base_task_params
         if updating_params == set(params.keys()) and task_id:

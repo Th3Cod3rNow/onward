@@ -19,5 +19,5 @@ export default [
     full_task,
     bar,
     all_tasks,
-    group
+    group,
 ]

@@ -1,5 +1,5 @@
 <template>
-  <button class="group">{{group.name}}</button>
+  <my-btn class="group">{{group.name}}</my-btn>
 
 </template>
 

@@ -1,24 +1,29 @@
 <template>
-  <div v-if="sing"><my-singup></my-singup></div>
-  <div v-else><my-register></my-register></div>
-  <my-btn
-  @click = 'swap'
-  ></my-btn>
+
+  <div v-if="sing"><my-singup @send="send" @swap="swap"></my-singup></div>
+  <div v-else><my-register @send="send" @swap="swap"></my-register></div>
+
+
 </template>
 
 <script>
-import MyBtn from "@/templates/custom/btn";
 export default {
   name: "my-entry",
-  components: {MyBtn},
+  components: {},
  data(){
     return{
-      sing:true
+      sing:false
     }
  },
   methods:{
     swap(){
-      this.sing = !this.sing;
+      if(this.sing)
+        this.sing = false;
+      else
+        this.sing=true;
+    },
+    send(Username,Password,Email){
+      this.$emit('send',Username,Password,Email);
     }
   }
 }

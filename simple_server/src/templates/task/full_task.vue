@@ -5,9 +5,9 @@
         @click="$emit('close')"
         ></button>
 
-        <h3>{{task.title}}</h3>
+        <h3>{{task[1]}}</h3>
         <hr>
-        <h4>{{task.body}}</h4>
+        <h4>{{task[2]}}</h4>
         <hr>
         <h5>{{task.status}}</h5>
       </div>

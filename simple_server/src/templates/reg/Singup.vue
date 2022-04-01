@@ -4,8 +4,12 @@
       <my-inp class="in" placeholder="Username"></my-inp>
       <my-inp class="in" placeholder="Password"></my-inp>
       <my-btn
-        @click="Senduser"
+        @click="SendUser"
       >Sing In</my-btn>
+
+      <my-btn
+          @click="$emit('swap')"
+      >swap</my-btn>
     </div>
 
   </div>

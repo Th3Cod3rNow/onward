@@ -4,12 +4,14 @@
     <div class="tmp">
           <my-bar
           v-bind:groups="this.groups"
+          @go="changegroup"
+          @send="reglog"
           ></my-bar>
     </div>
 
     <div class="menu" >
           <all-tasks
-          v-bind:tasks="tasks"
+          v-bind:tasks="group.tasks"
           @open="open"
           ></all-tasks>
     </div>
@@ -18,8 +20,10 @@
       v-bind:task="opened"
       @close="changeop"
     ></full-task>
-
-</div>
+  <my-btn
+  @click="getTasks"
+  >send</my-btn>
+  </div>
 </template>
 
 <script>
@@ -29,28 +33,25 @@ export default {
   components: {},
   data() {
     return {
-      tasks: [
-        {id: 0, title: 'название', body: 'Описание', status: 'никто не выполняет'},
-        {id: 1, title: 'название', body: 'Описание', status: 'никто не выполняет'},
-        {id: 2, title: 'r', body: 'Описание', status: 'никто не выполняет'},
-        {id: 3, title: 'название', body: 'Описаggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggние', status: 'никто не выполняет'},
-        {id: 4, title: 'название', body: 'Описание', status: 'никто не выполняет'},
-        {id: 5, title: 'название', body: 'Описание', status: 'никто не выполняет'},
-
-      ],
       user:{
-        email:'timafaer@gamil.com',
-        name:'timafaer',
-        password: 'qwerty'
+        email:'',
+        name:'',
+        password: ''
       },
       opened:{
           type:Object
       },
       op: false,
-      groups:[
-        {id: 0, name: 'some', }
-      ]
-    }
+
+
+      group:{
+        id: 0,
+        name: 'some',
+        tasks : [{id: 0, title: 'название', body: 'Описание', status: 'никто не выполняет'}],
+        users : [{id: 0, username: "user" , Email: "@mail.com"}]
+      },
+      groups: []
+ }
   },
   methods:{
     open(task){
@@ -63,15 +64,27 @@ export default {
     },
     async getTasks(){
           try{
-              const response = await axios.get('http://127.0.0.1:8888/ID=32');
-              this.tasks = response.data;
+              const response = await axios.get('http://127.0.0.1:8888/Groups');
+              this.groups = response.data.groups;
+              console.log(response)
           }catch (e){
                 alert('error')
           }
     },
     mounted(){
       this.getTasks();
+    },
+    changegroup(group){
+      this.group = group;
+    },
+    reglog(Username,Password,Email){
+      this.user.name=Username;
+      this.user.password=Password;
+      if(Email.length>0)
+        this.user.email=Email;
+
     }
+
   }
 }
 </script>

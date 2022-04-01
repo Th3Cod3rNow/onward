@@ -7,6 +7,9 @@
           <my-btn
             @click="SendUser"
           >Sing In</my-btn>
+          <my-btn
+              @click="$emit('swap')"
+          >swap</my-btn>
       </div>
 
   </div>
@@ -15,6 +18,7 @@
 <script>
 export default {
   name: "my-register",
+  components: {},
   props:{
       Email:[String],
       Username:[String],
@@ -22,7 +26,7 @@ export default {
   },
   methods:{
     SendUser(){
-      this.$emit('send',this.Email,this.Username,this.Password)
+      this.$emit('send',this.Username,this.Password,this.Email,)
     }
   }
 }
@@ -54,5 +58,6 @@ export default {
 }
 .btn{
   margin: auto;
+  flex-direction: row;
 }
 </style>

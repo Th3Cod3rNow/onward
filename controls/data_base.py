@@ -89,7 +89,9 @@ class DataBase:
             '''.format(parameter),
             (value,)
         )
-        cursor.fetchall()
+        tasks=cursor.fetchall()
+        cursor.close()
+        return tasks
     def get_last_task(self) -> list:
         cursor = self.connection.cursor()
         cursor.execute(
