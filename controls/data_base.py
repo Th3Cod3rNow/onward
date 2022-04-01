@@ -57,6 +57,17 @@ class DataBase:
         cursor.close()
         return last
 
+    def get_user_by(self, parameter, value):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            '''
+            SELECT * FROM users WHERE {}=?
+            '''.format(parameter),
+            (value,)
+        )
+        user = cursor.fetchone()
+        return user
+
     def insert_task(self, task_name, author_id):
         cursor = self.connection.cursor()
         cursor.execute(
@@ -70,7 +81,15 @@ class DataBase:
         cursor.close()
         self.connection.commit()  # save changes
         return new_id
-
+    def get_tasks_by(self, parameter, value):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            '''
+            SELECT * FROM tasks WHERE {}=?
+            '''.format(parameter),
+            (value,)
+        )
+        cursor.fetchall()
     def get_last_task(self) -> list:
         cursor = self.connection.cursor()
         cursor.execute(
@@ -93,7 +112,15 @@ class DataBase:
             cursor.close()
             return user
         return False
-
+    def get_groups(self):
+        cursor = self.connection.cursor()
+        cursor.execute(
+            '''
+            SELECT * FROM groupss
+            '''
+        )
+        groupss = cursor.fetchall()
+        return groupss
     def get_user_by_alice_id(self, alice_id):
         if alice_id:
             cursor = self.connection.cursor()
@@ -122,9 +149,6 @@ class DataBase:
         return False
     def update_user_by_user_id(self, user_id, params):
         if params and user_id:
-            values = params.values()
-            items = [item for item in params.items()]
-
             cursor = self.connection.cursor()
             for item in params:
                 cursor.execute(
@@ -163,7 +187,7 @@ class DataBase:
         cursor = self.connection.cursor()
         cursor.execute(
             '''
-            INSERT INTO groups (name)
+            INSERT INTO groupss (name)
             VALUES (?)
             ''',
             (group_name,),
@@ -178,7 +202,7 @@ class DataBase:
         cursor = self.connection.cursor()
         cursor.execute(
             '''
-            SELECT MAX(group_id) FROM groups
+            SELECT MAX(group_id) FROM groupss
             ''')
         last = cursor.fetchone()
         print(last)
@@ -190,7 +214,7 @@ class DataBase:
             cursor=self.connection.cursor()
             cursor.execute(
                 '''
-                SELECT * FROM groups WHERE name = ?
+                SELECT * FROM groupss WHERE name = ?
                 ''',
                 (task_name,)
             )
@@ -200,11 +224,11 @@ class DataBase:
         return False
 
     def get_task_by_task_id(self, task_id):
-        if task_id:
+        if task_id is not None:
             cursor=self.connection.cursor()
             cursor.execute(
                 '''
-                SELECT * FROM groups WHERE task_id = ?
+                SELECT * FROM tasks WHERE task_id = ?
                 ''',
                 (task_id,)
             )
@@ -213,16 +237,28 @@ class DataBase:
             return task
         return False
 
-    def get_group_by_group_id(self, group_id):
+    def get_group_by(self, parameter, value):
         cursor = self.connection.cursor()
 
         cursor.execute(
             '''
-            SELECT * FROM groups WHERE group_id = ?
-            ''', (group_id,))
+            SELECT * FROM groupss WHERE {} = ?
+            '''.format(parameter), (value,))
         group = cursor.fetchone()
         cursor.close()
         return group
+
+    def update_group_by_group_id(self, group_id, params):
+        if params and group_id:
+            cursor = self.connection.cursor()
+            for item in params:
+                cursor.execute(
+                    "UPDATE groupss SET " + item + " = ? WHERE group_id= ? ", (params[item], group_id,))
+            self.connection.commit()
+            cursor.close()
+            return True
+        else:
+            return False
     def __del__(self):
         if self.connection:
             self.connection.close()
