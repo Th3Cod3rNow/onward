@@ -21,7 +21,8 @@ class Controller:
             "description",
             "task_name",
             "performer_id",
-            "completed"
+            "completed",
+            "group_id"
         }
         self.base_group_params = {
             "task_list",
@@ -71,10 +72,13 @@ class Controller:
             return user
     def create_task(self, author_id, name):
         if author_id and name:
-            insertion = self.BD.insert_task(name, author_id)
-            if insertion:
-                return insertion
-            return False
+            try:
+                insertion = self.BD.insert_task(name, int(author_id))
+                if insertion:
+                    return insertion
+                return False
+            except sqlite3.IntegrityError:
+                return False
         return False
     def get_tasks_by(self, parameter, value):
         tasks = self.BD.get_tasks_by(parameter, value)
@@ -114,7 +118,7 @@ class Controller:
 
     def get_task_by(self, parameter, value):
         if parameter and value:
-            task = self.BD.get_tasks_by(parameter,value)
+            task = self.BD.get_task_by(parameter,value)
             return task
         return False
 
