@@ -1,11 +1,17 @@
 <template>
-  <div class="full">
-    <h3>{{task.title}}</h3>
-    <hr>
-    <h4>{{task.body}}</h4>
-    <hr>
-    <h5>{{task.status}}</h5>
-  </div>
+<div>
+      <div class="full">
+        <button type="button" class="btn-close " aria-label="Close"
+        @click="$emit('close')"
+        ></button>
+
+        <h3>{{task.title}}</h3>
+        <hr>
+        <h4>{{task.body}}</h4>
+        <hr>
+        <h5>{{task.status}}</h5>
+      </div>
+</div>
 </template>
 
 <script>
@@ -18,7 +24,8 @@ export default {
       body: [String],
       status: [String]
     }
-  }
+  },
+
 }
 </script>
 
