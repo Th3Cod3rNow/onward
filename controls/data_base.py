@@ -57,20 +57,15 @@ class DataBase:
         cursor.close()
         return last
 
-    def insert_task(self, task_name, description, author_id, performer_id, completed=False):
+    def insert_task(self, task_name, author_id):
         cursor = self.connection.cursor()
         cursor.execute(
             '''
-            INSERT INTO tasks (task_name, description, author_id, performer_id, completed)
-            VALUES (?,?,?,?,?)
+            INSERT INTO tasks (task_name,author_id)
+            VALUES (?,?)
             ''',
-            (task_name, description, author_id, performer_id, completed,),
+            (task_name, author_id,),
         )
-        cursor.execute(
-            '''
-            UPDATE 
-            ''')
-
         new_id = self.get_last_task()[0]
         cursor.close()
         self.connection.commit()  # save changes
@@ -80,7 +75,7 @@ class DataBase:
         cursor = self.connection.cursor()
         cursor.execute(
             '''
-            SELECT MAX(taks_id) FROM tasks
+            SELECT MAX(task_id) FROM tasks
             ''')
         last = cursor.fetchone()
         cursor.close()
@@ -141,12 +136,8 @@ class DataBase:
             return False
     def update_user_by_user_name(self, user_name, params):
         if params and user_name:
-            values = params.values()
-            items = [item for item in params.items()]
-
             cursor = self.connection.cursor()
             for item in params:
-                query = ("UPDATE users set "+item+" = ? WHERE user_id=?", (params[item],user_name,))
                 cursor.execute(
                     "UPDATE users SET "+item+" = ? WHERE user_name= ? ", (params[item],user_name,))
             self.connection.commit()
@@ -154,6 +145,21 @@ class DataBase:
             return True
         else:
             return False
+
+    def update_task_by_task_id(self, task_id, params):
+        if params and task_id:
+            cursor = self.connection.cursor()
+            for item in params:
+                print(item, params[item])
+                cursor.execute(
+                    "UPDATE tasks SET " + item + " = ? WHERE task_id= ? ", (params[item], task_id,))
+            self.connection.commit()
+            cursor.close()
+            return True
+        else:
+            return False
+
+
     def __del__(self):
         if self.connection:
             self.connection.close()

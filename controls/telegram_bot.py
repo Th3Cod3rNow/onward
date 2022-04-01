@@ -1,4 +1,4 @@
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 import data_base
 import telegram_handler
 import random
@@ -24,15 +24,26 @@ token = token_file.read()
 token_file.close()
 
 handler = Handler()
+STATE = None
 
-def chatting(update, bot, get_ans = False, ready_message = None):
-    answer = handler.processing(update["message"])
-    print(answer)
-    if answer:
-        if isinstance(answer[0], int) and isinstance(answer[1], str):
-            sender.send_text(bot.bot, *answer)
+def chatting(update, context):
+    global STATE
+
+    answer = handler.processing(update["message"], context=STATE)
+    print(STATE, answer)
+    if answer and update:
+        print(answer, update)
+        if len(answer) > 2:
+            STATE = answer[2]
+            sender.send_text(update.message, *answer[:2])
         else:
-            sender.send_text(bot.bot, update["message"]["from_user"]["id"], "Не понял вас")
+            STATE = None
+            if isinstance(answer[0], int) and isinstance(answer[1], str):
+                sender.send_text(update.message, *answer[:2])
+            else:
+                sender.send_text(update.message, update["message"]["from_user"]["id"], "Не понял вас")
+
+
 
 def main():
     updater = Updater(token, use_context=True)
@@ -40,8 +51,11 @@ def main():
     dp = updater.dispatcher
 
     text_handler = MessageHandler(Filters.text, chatting)
+    # context_handler = MessageHandler(Filters.text, context_chatting)
+    #
+    # dp.add_handler(CommandHandler("start", chatting))
+    # dp.add_handler(CommandHandler("newtask", chatting))
 
-    # adding handler
     dp.add_handler(text_handler)
     logging.info("Bot has started!")
     updater.start_polling(poll_interval=1)
