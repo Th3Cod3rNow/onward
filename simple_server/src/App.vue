@@ -44,12 +44,7 @@ export default {
       op: false,
 
 
-      group:{
-        id: 0,
-        name: 'some',
-        tasks : [{id: 0, title: 'название', body: 'Описание', status: 'никто не выполняет'}],
-        users : [{id: 0, username: "user" , Email: "@mail.com"}]
-      },
+      group:{},
       groups: []
  }
   },
@@ -64,9 +59,20 @@ export default {
     },
     async getTasks(){
           try{
-              const response = await axios.get('http://127.0.0.1:8888/Groups');
-              this.groups = response.data.groups;
-              console.log(response)
+            const res = await axios.post('http://127.0.0.1:8888/Groups',{
+            method: 'POST',
+                headers:{
+              'Content-Type':'application/json'
+            },
+              credentials: 'include',
+              body: JSON.stringify({
+                username: this.username,
+                password: this.password
+              })
+            })
+              const data = await res.json()
+              this.groups = data.groups;
+              console.log(data)
           }catch (e){
                 alert('error')
           }
