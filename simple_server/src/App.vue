@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import FullTask from "@/templates/task/full_task";
+import axios from 'axios'
 export default {
   name: 'App',
-  components: {FullTask},
+  components: {},
   data() {
     return {
       tasks: [
@@ -60,6 +60,17 @@ export default {
     changeop(){
       if(this.op)
         this.op = false
+    },
+    async getTasks(){
+          try{
+              const response = await axios.get('http://127.0.0.1:8888/ID=32');
+              this.tasks = response.data;
+          }catch (e){
+                alert('error')
+          }
+    },
+    mounted(){
+      this.getTasks();
     }
   }
 }
