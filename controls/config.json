@@ -1,0 +1,8 @@
+{
+  "main": {
+    "token-file": "token.txt"
+  },
+  "other": {
+    "enable_roles": false
+  }
+}
