@@ -120,7 +120,7 @@ def add_task(author_name, name, description, group_id):
                     "groups": GROUPS(author[1], author[2]),
                     "group": {"group_id": group_id,
                                  "name": group[3],
-                                 "tasks": [controller.get_task_by("task_id", int(task)) for task in group[1].split()],
+                                 "tasks": new_tasks,
                                  "users": group[2].split()
                                  }
                 }))
