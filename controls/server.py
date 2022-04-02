@@ -78,16 +78,21 @@ def create_user(username: str, password: str):
 
 
 # Создание задания
-@app.route('---', methods=['GET'])
-def create_task(name, description, performer, group, author_id=0):
+@app.route('/addTask/Username=<string:author_name>&Taskname=<string:name>&Body=<string:description>&idGroup=<int:group_id>', methods=['GET'])
+def add_task(author_name, name, description, group_id):
     if request.method == 'GET':
+        author_id = controller.get_user_by("user_name", author_name)[0]
         task_id = controller.create_task(author_id, name)
-        controller.update_task(int(task_id), {"description": description,
-                                              "performer_id": controller.get_user_by("user_name", performer)[0],
-                                              "group_id": controller.get_group_by("group_name", group)})
-        return corsify_actual_response(jsonify({
-            "status": "success"
-        }))
+        task = controller.update_task(int(task_id), {"description": description,
+                                              "group_id": group_id})
+        if task:
+            return corsify_actual_response(jsonify({
+                "status": "success"
+            }))
+        else:
+            return corsify_actual_response(jsonify({
+                "status": "error"
+            }))
 
 
 # Создаиние группы
