@@ -1,15 +1,33 @@
 <template>
-<div class="bar">
-  <my-group v-for="group in groups"
-    v-bind:key="group.id"
-    v-bind:group="group"
-            @click="$emit('go',group)"
-  ></my-group>
-  <my-entry v-if="show" @send="entry"></my-entry>
-  <my-btn
-      @click="this.show=true"
-      v-else-if="btnshow">sing up</my-btn>
-</div>
+  <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 10vw;height: 100vh">
+    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+      <span class="fs-5 fw-semibold">List group</span>
+    </a>
+    <div class="list-group list-group-flush border-bottom scrollarea">
+      <my-entry
+          v-if="show"
+          @sing_in="sing_in"
+          @sing_up="sing_up"
+          @close="this.show=false"
+      ></my-entry>
+      <my-btn
+          style="width: 80%;margin: 10%"
+
+          @click="this.show=true"
+          v-else-if="btnshow">sing up
+      </my-btn>
+      <my-group
+          v-for="group in groups"
+          v-bind:key="group.id"
+          v-bind:group="group"
+          @click="$emit('go',group)"
+      ></my-group>
+      <add-group></add-group>
+    </div>
+  </div>
+
+
 </template>
 
 <script>
@@ -30,10 +48,13 @@ export default {
     }
   },
   methods:{
-    entry(Username,Password,Email){
-      this.btnshow=false;
-      this.show=false;
-      return this.$emit('send',Username,Password,Email);
+    sing_up(groups,Username){
+      this.show = false;
+      return this.$emit('sing_up',groups,Username);
+    },
+    sing_in(Username){
+      this.show = false;
+      return this.$emit('sing_up',Username);
     }
   }
 }
@@ -41,5 +62,8 @@ export default {
 
 <style scoped>
 .bar{
+  background: chocolate;
+  width: 10vw;
+  height: 100vh;
 }
 </style>

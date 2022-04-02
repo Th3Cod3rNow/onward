@@ -13,5 +13,9 @@ export default {
 </script>
 
 <style scoped>
-
+.btn{
+  border-radius: 4px;
+  border-color: black;
+  padding: 2px;
+}
 </style>

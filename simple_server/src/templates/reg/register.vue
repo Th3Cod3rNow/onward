@@ -1,33 +1,48 @@
 <template>
-  <div class="dialog">
-      <div class="reg">
-          <my-inp class="in" placeholder="Email"></my-inp>
-          <my-inp class="in" placeholder="Username"></my-inp>
-          <my-inp class="in" placeholder="Password"></my-inp>
+          <my-inp @input="user" class="in" placeholder="Username"></my-inp>
+          <my-inp @input="pass" class="in" placeholder="Password"></my-inp>
           <my-btn
+            style="width: 20%"
             @click="SendUser"
-          >Sing In</my-btn>
+          >Sing up</my-btn>
           <my-btn
               @click="$emit('swap')"
           >swap</my-btn>
-      </div>
+          <my-btn class="btn-danger"
+              @click="$emit('close')"
+          >close</my-btn>
 
-  </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "my-register",
   components: {},
-  props:{
-      Email:[String],
-      Username:[String],
-      Password:[String]
+  data(){
+    return {
+      Username: '',
+      Password: ''
+    }
   },
   methods:{
-    SendUser(){
-      this.$emit('send',this.Username,this.Password,this.Email,)
-    }
+   async SendUser() {
+     const res = await axios.get('http://127.0.0.1:8888/createUser/'+'Username='+this.Username+'&Password='+this.Password);
+     if(res.data.status==='success')
+        return this.$emit('success',this.Username);
+     else
+       return  this.$emit('not',"выберете другое имя");
+   },
+    user(event){
+      this.Username=event.target.value;
+    },
+    pass(event){
+      this.Password=event.target.value;
+    },
+
+
+
   }
 }
 </script>
