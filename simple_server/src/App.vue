@@ -25,6 +25,7 @@
   <window-task-add
       v-if="add"
       @close="changeop"
+      @add="add_task"
   ></window-task-add>
 </div>
 </template>
@@ -58,6 +59,8 @@ export default {
       this.op = true
     },
     changeop(){
+      if(this.add)
+        this.add = false
       if(this.op)
         this.op = false
     },
@@ -71,6 +74,10 @@ export default {
     changegroup(group){
       this.group = group;
     },
+    add_task(task,idG){
+      let index = this.groups.findIndex(item=>item.id===idG);
+      this.groups[index].tasks.append(task);
+    }
 
   }
 }

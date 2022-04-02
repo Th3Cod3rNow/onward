@@ -37,7 +37,7 @@ export default {
       const res =await axios.get('http://127.0.0.1:8888/addTask/'+'Username='+this.Username+'&Taskname='+ this.task.name + '&Body=' + this.task.body + '&idGroup'+ this.idG);
       this.task.id = res.data.id;
       this.task.username = this.Username;
-      return this.$emit('add',this.task);
+      return this.$emit('add',this.task,this.idG);
     },
     mane(event){
       this.task.name = event.target.value;
