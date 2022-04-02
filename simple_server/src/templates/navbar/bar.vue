@@ -48,7 +48,7 @@ export default {
     }
   },
   methods:{
-    sing_up(groups,Username,Password){
+    sing_up(groups,Username){
       this.show = false;
       return this.$emit('sing_up',groups,Username);
     },

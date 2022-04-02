@@ -30,6 +30,17 @@ def GROUPS(username, password):
     return groups
 
 
+def USER(user):
+    user_dict = {
+        "id": user[0],
+        "name": user[1],
+        "password": user[2],
+        "task_list": user[3].split(),
+        "group_id": user[6].split(),
+        "groups": GROUPS(user[1], user[2])
+    }
+    return user_dict
+
 print(GROUPS)
 app = Flask(__name__)
 
@@ -93,14 +104,41 @@ def add_task(author_name, name, description, group_id):
         task = controller.update_task(int(task_id), {"description": description,
                                               "group_id": group_id})
         if task:
-            return corsify_actual_response(jsonify({
-                "status": "success",
-                "id": task_id
-            }))
+            group = controller.get_group_by("group_id", group_id)
+            if group:
+                group_tasks = group[1].split()
+                group_tasks.append(str(task_id))
+                new_tasks = ' '.join(list(set(group_tasks)))
+                controller.update_task(int(task_id), {"task_list": new_tasks})
+                return corsify_actual_response(jsonify({
+                    "status": "success",
+                    "id": task_id
+                }))
+            else:
+                return corsify_actual_response(jsonify({
+                    "status": "group_doesnt_exist"
+                }))
         else:
             return corsify_actual_response(jsonify({
                 "status": "error"
             }))
+
+@app.route('/addGroup/name=<string:name>&author_id=<int:author_id>', methods=["GET"])
+def add_group(self, name, author_id):
+    if request.method == 'GET':
+        user = controller.get_user_by("user_id", author_id)
+        group_id = controller.create_group(name)
+        if group_id and user:
+            user_groups = user[6].split()
+            user_groups.append(str(group_id))
+            new_groups = ' '.join(list(set(user_groups)))
+            controller.update_task(int(group_id), {"group_id": new_groups})
+            return corsify_actual_response(jsonify({
+                "status": "success",
+                "user": USER(user)
+            }))
+        else:
+            "group_already_exist"
 
 '''
 # Создаиние группы
