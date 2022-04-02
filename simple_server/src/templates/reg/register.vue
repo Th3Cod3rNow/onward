@@ -2,6 +2,7 @@
           <my-inp @input="user" class="in" placeholder="Username"></my-inp>
           <my-inp @input="pass" class="in" placeholder="Password"></my-inp>
           <my-btn
+            style="width: 20%"
             @click="SendUser"
           >Sing up</my-btn>
           <my-btn

@@ -74,6 +74,7 @@ export default {
   -webkit-user-select: none;
 }
 .reg{
+
   position: center;
   background: blueviolet;
   padding: 20px;
@@ -86,7 +87,6 @@ export default {
   margin-bottom: 10px;
 }
 .btn{
-  margin: 10px;
   flex-direction: row;
 }
 </style>

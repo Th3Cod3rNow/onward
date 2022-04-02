@@ -5,21 +5,22 @@
               @click="$emit('close')"
       ></button>
 
-      <my-inp></my-inp>
+      <my-inp @input="mane" placeholder="название"></my-inp>
       <hr>
-      <my-inp></my-inp>
+      <my-inp @input="descr" placeholder="Описание"></my-inp>
       <hr>
-      <my-inp></my-inp>
+      <my-btn @click="addTask"></my-btn>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import MyBtn from "@/templates/custom/btn";
 
 export default {
   name: "window-task-add",
-  components: {},
+  components: {MyBtn},
   props:{
     Username:[String],
     idG:[Number,String]
@@ -33,8 +34,16 @@ export default {
   },
   methods:{
     async addTask(){
-      axios.get('http://127.0.0.1:8888/addTask/'+'Username='+this.Username+'&Taskname='+ this.task.name + '&Body=' + this.task.body + '&idGroup'+ this.idG);
+      const res =await axios.get('http://127.0.0.1:8888/addTask/'+'Username='+this.Username+'&Taskname='+ this.task.name + '&Body=' + this.task.body + '&idGroup'+ this.idG);
+      this.task.id = res.data.id;
+      this.task.username = this.Username;
       return this.$emit('add',this.task);
+    },
+    mane(event){
+      this.task.name = event.target.value;
+    },
+    descr(event){
+      this.task.body = event.target.value;
     }
   }
 }

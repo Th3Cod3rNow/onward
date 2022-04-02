@@ -14,6 +14,7 @@
           <all-tasks
           v-bind:tasks="group.tasks"
           @open="open"
+          @add_task="this.add=true"
           ></all-tasks>
     </div>
   </div>
@@ -22,7 +23,7 @@
       @close="changeop"
     ></full-task>
   <window-task-add
-      v-if="adding"
+      v-if="add"
       @close="changeop"
   ></window-task-add>
 </div>
@@ -45,7 +46,7 @@ export default {
           type:Object
       },
       op: false,
-      adding:false,
+      add:false,
 
       group:{},
       groups: []
