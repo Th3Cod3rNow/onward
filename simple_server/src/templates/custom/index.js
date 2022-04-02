@@ -11,6 +11,7 @@ import group from "@/templates/navbar/group";
 import addtask from "@/templates/task/addtask";
 import vindow_task_add from "@/templates/task/vindow_task_add";
 import add_group from "@/templates/navbar/add_group";
+import new_group from "@/templates/navbar/new_group";
 
 export default [
     Btn,
@@ -25,5 +26,6 @@ export default [
     group,
     addtask,
     vindow_task_add,
-    add_group
+    add_group,
+    new_group
 ]

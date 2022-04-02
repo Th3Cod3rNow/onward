@@ -7,6 +7,8 @@
           @go="changegroup"
           @sing_up="sing_up"
           @sing_in="sing_in"
+          @success="success"
+          :Username="user.name"
           ></my-bar>
     </div>
 
@@ -25,7 +27,7 @@
   <window-task-add
       v-if="add"
       @close="changeop"
-      @add="add_task"
+      @add="success"
       :idG="group.id"
       :Username="user.name"
   ></window-task-add>
@@ -41,6 +43,7 @@ export default {
   components: {},
   data() {
     return {
+      gg:true,
       user:{
         email:'',
         name:'Nikita',
@@ -79,10 +82,11 @@ export default {
     changegroup(group){
       this.group = group;
     },
-    add_task(groups,group){
+    success(groups,group){
       this.groups = groups;
       this.group = group;
-    }
+    },
+
   }
 }
 </script>

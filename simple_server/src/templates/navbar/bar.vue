@@ -23,7 +23,10 @@
           v-bind:group="group"
           @click="$emit('go',group)"
       ></my-group>
-      <add-group></add-group>
+      <new_group
+        @success="$emit('success')"
+        :Username="this.Username"
+      ></new_group>
     </div>
   </div>
 
@@ -38,13 +41,18 @@ export default {
   props:{
     groups:{
       type: Array,
+      required: true,
+
+    },
+    Username:{
+      type:[String],
       required: true
     }
   },
   data(){
     return{
       show:false,
-      btnshow:true
+      btnshow:true,
     }
   },
   methods:{

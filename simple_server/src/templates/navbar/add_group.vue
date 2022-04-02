@@ -1,6 +1,6 @@
 <template>
   <a class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true" style="background: #ef7722; border: none">
-    <div class="d-flex w-100 align-items-center justify-content-between" style="border: none">
+    <div @click="$emit('click')" class="d-flex w-100 align-items-center justify-content-between" style="border: none">
       <strong class="mb-1">Add group</strong>
     </div>
   </a>

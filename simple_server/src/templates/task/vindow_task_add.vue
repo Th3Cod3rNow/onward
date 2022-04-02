@@ -16,11 +16,10 @@
 
 <script>
 import axios from "axios";
-import MyBtn from "@/templates/custom/btn";
 
 export default {
   name: "window-task-add",
-  components: {MyBtn},
+  components: {},
   props:{
     Username:[String],
     idG:[Number,String]
