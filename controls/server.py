@@ -114,7 +114,7 @@ def add_task(author_name, name, description, group_id):
                 group_tasks = group[1].split()
                 group_tasks.append(str(task_id))
                 new_tasks = ' '.join(list(set(group_tasks)))
-                controller.update_task(int(task_id), {"task_list": new_tasks})
+                controller.update_group(int(group_id), {"task_list": new_tasks})
                 return corsify_actual_response(jsonify({
                     "status": "success",
                     "groups": GROUPS(author[1], author[2]),
