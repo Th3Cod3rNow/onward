@@ -14,16 +14,19 @@ controller = main_controller.Controller()
 Handler = SimpleHTTPRequestHandler
 httpd = HTTPServer(("", PORT), Handler)
 
-GROUPS = [
-    {
-        "id": ID,
-        "name": controller.get_group_by('group_id', value=str(ID))[3],
-        "tasks": controller.get_tasks_by('task_id', value=controller.get_group_by('group_id', value=ID)[1]),
-        "users": controller.get_user_by("user_id", value=controller.get_group_by('group_id', value=ID)[2])
-    }
-    for ID in controller.log_in(user_name='user', password='user')[6].split()
-
-]
+def GROUPS(username, password):
+    groups = list()
+    user = controller.log_in(username, password)
+    if user:
+        for ID in user[6].split():
+            group = controller.get_group_by("group_id", str(ID))
+            groups.append({
+                "id":ID,
+                "name":group[3],
+                "tasks": group[1].split(),
+                "users": group[2].split()
+            })
+    return groups
 
 print(GROUPS)
 app = Flask(__name__)
