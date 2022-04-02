@@ -65,7 +65,6 @@ def chatting(update, context):
     elif context.user_data["complete_task"]:
         complete_task(update, context)
         context.user_data["complete_task"] = False
-
     else:
         update.message.reply_text("Не понял вас")
 
@@ -225,13 +224,13 @@ def buttons(update, context):
     choice = query.data
     if choice.startswith("login"):
         login_info(update, context)
-    if choice == "task_list":
+    elif choice == "task_list":
         task_list(update, context)
-    if choice == 'create_group':
+    elif choice == 'create_group':
         create_group_info(update, context)
-    if choice == 'group_list':
+    elif choice == 'group_list':
         group_list(update, context)
-    if choice == 'enter_in_group':
+    elif choice == 'enter_in_group':
         group_enter_info(update, context)
     elif choice == 'exit_group':
         exit_group_info(update, context)
@@ -245,6 +244,11 @@ def buttons(update, context):
         task_info_info(update, context)
     elif choice == 'complete_task':
         complete_task_info(update, context)
+    elif choice == 'register':
+        register_info(update, context)
+
+def register_info(update, context):
+    update.callback_query.message.reply_text("Введите имя пользователя и пароль через строчку. Пример:\n")
 
 def complete_task_info(update, context):
     context.user_data['complete_task'] = True
@@ -370,9 +374,10 @@ def start(update, context):
     if user:
         update.message.reply_text("Вы уже вошли в аккаунт")
     else:
-        keyboard = [[InlineKeyboardButton("Войти", callback_data="login")]]
+        keyboard = [[InlineKeyboardButton("Войти", callback_data="login")],
+                    [InlineKeyboardButton("Зарегестрироваться", callback_data="register")]]
         kb = InlineKeyboardMarkup(keyboard)
-        text = "Войдите в аккаунт с помощью логина и пароля, который вам выдали"
+        text = "Войдите в аккаунт с помощью логина и пароля, который вам выдали.\n Или зарегестрируйтесь"
         update.message.reply_text(text, reply_markup=kb)
 
 

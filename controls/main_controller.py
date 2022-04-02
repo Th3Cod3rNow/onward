@@ -51,8 +51,8 @@ class Controller:
 
     def create_user(self, user_name: str, password: str):
         if user_name and password:
-            self.BD.insert_user(user_name, password)
-            return True
+            user = self.BD.insert_user(user_name, password)
+            return user
         return False
 
     def update_user_base_params(self, user_id, params):
@@ -106,7 +106,7 @@ class Controller:
             try:
                 insertion = self.BD.insert_group(group_name)
                 if insertion:
-                    return True
+                    return insertion
                 return False
             except sqlite3.IntegrityError:
                 return False
