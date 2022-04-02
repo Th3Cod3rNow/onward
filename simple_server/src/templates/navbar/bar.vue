@@ -1,16 +1,17 @@
 <template>
 <div class="bar">
 
-  <my-group v-for="group in groups"
+  <my-group
+    v-for="group in groups"
     v-bind:key="group.id"
     v-bind:group="group"
-            @click="$emit('go',group)"
+    @click="$emit('go',group)"
   ></my-group>
   <my-entry
       v-if="show"
       @sing_in="sing_in"
       @sing_up="sing_up"
-
+      @close="this.show=false"
   ></my-entry>
   <my-btn
       @click="this.show=true"
@@ -50,5 +51,8 @@ export default {
 
 <style scoped>
 .bar{
+  background: chocolate;
+  width: 10vw;
+  height: 100vh;
 }
 </style>

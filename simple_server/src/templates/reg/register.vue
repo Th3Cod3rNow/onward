@@ -7,6 +7,9 @@
           <my-btn
               @click="$emit('swap')"
           >swap</my-btn>
+          <my-btn class="btn-danger"
+              @click="$emit('close')"
+          >close</my-btn>
 
 </template>
 
