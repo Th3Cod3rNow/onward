@@ -99,7 +99,8 @@ def create_user(username: str, password: str):
 @app.route('/addTask/Username=<string:author_name>&Taskname=<string:name>&Body=<string:description>&idGroup=<int:group_id>', methods=['GET'])
 def add_task(author_name, name, description, group_id):
     if request.method == 'GET':
-        author_id = controller.get_user_by("user_name", author_name)[0]
+        author = controller.get_user_by("user_name", author_name)
+        author_id = author[0]
         task_id = controller.create_task(author_id, name)
         task = controller.update_task(int(task_id), {"description": description,
                                               "group_id": group_id})
@@ -112,7 +113,7 @@ def add_task(author_name, name, description, group_id):
                 controller.update_task(int(task_id), {"task_list": new_tasks})
                 return corsify_actual_response(jsonify({
                     "status": "success",
-                    "id": task_id
+                    "groups": GROUPS(author[1], author[2])
                 }))
             else:
                 return corsify_actual_response(jsonify({
@@ -135,7 +136,7 @@ def add_group(self, name, author_id):
             controller.update_task(int(group_id), {"group_id": new_groups})
             return corsify_actual_response(jsonify({
                 "status": "success",
-                "user": USER(user)
+                "user": GROUPS(user[1], user[2])
             }))
         else:
             "group_already_exist"
