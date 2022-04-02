@@ -2,13 +2,13 @@
           <my-inp @input="user" class="in" placeholder="Username"></my-inp>
           <my-inp @input="pass" class="in" placeholder="Password"></my-inp>
           <my-btn
-            style="width: 20%"
+            style="width: 35%; background: chocolate; border: none; margin-right: 10%"
             @click="SendUser"
           >Sing up</my-btn>
-          <my-btn
+          <my-btn style="background: chocolate; border: none; margin-right: 10%"
               @click="$emit('swap')"
           >swap</my-btn>
-          <my-btn class="btn-danger"
+          <my-btn class="btn-danger" style = "border: none"
               @click="$emit('close')"
           >close</my-btn>
 

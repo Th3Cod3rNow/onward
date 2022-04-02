@@ -26,9 +26,10 @@
 </template>
 
 <script>
+import MyRegister from "@/templates/reg/register";
 export default {
   name: "my-entry",
-  components: {},
+  components: {MyRegister},
  data(){
     return{
       sing:false,
@@ -76,7 +77,7 @@ export default {
 .reg{
 
   position: center;
-  background: blueviolet;
+  background: #313131FF;
   padding: 20px;
   border-radius: 12px;
   display: flex;
@@ -87,6 +88,7 @@ export default {
   margin-bottom: 10px;
 }
 .btn{
+  background: chocolate;
   flex-direction: row;
 }
 </style>

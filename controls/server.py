@@ -136,12 +136,13 @@ def add_task(author_name, name, description, group_id):
             }))
 
 
-@app.route('/addGroup/Groupname=<string:name>&Userid=<int:author_id>', methods=["GET"])
-def add_group(self, name, author_id):
+@app.route('/addGroup/Username=<string:author_name>&Groupname=<string:name>', methods=["GET"])
+def add_group(author_name, name):
     if request.method == 'GET':
-        user = controller.get_user_by("user_id", author_id)
+        user = controller.get_user_by("user_name", author_name)
         group_id = controller.create_group(name)
         if group_id and user:
+            print(user, group_id)
             group = controller.get_group_by("group_id", int(group_id))
             user_groups = user[6].split()
             user_groups.append(str(group_id))
@@ -157,7 +158,7 @@ def add_group(self, name, author_id):
                                  }
             }))
         else:
-            "group_already_exist"
+             return corsify_actual_response(jsonify({"status":"error"}))
 
 
 '''
