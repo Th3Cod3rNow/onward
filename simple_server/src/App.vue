@@ -26,6 +26,8 @@
       v-if="add"
       @close="changeop"
       @add="add_task"
+      :idG="group.id"
+      :Username="user.name"
   ></window-task-add>
 </div>
 </template>
