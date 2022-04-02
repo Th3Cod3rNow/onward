@@ -1,7 +1,14 @@
 <template>
 
-  <div v-if="sing"><my-singup @send="send" @swap="swap"></my-singup></div>
-  <div v-else><my-register @send="send" @swap="swap"></my-register></div>
+  <div v-if="sing"><my-singup
+      @success="sing_up"
+      @swap="swap">
+
+  </my-singup></div>
+  <div v-else><my-register
+      @success="sing_in"
+      @swap="swap"
+  ></my-register></div>
 
 
 </template>
@@ -17,13 +24,17 @@ export default {
  },
   methods:{
     swap(){
-      if(this.sing)
-        this.sing = false;
-      else
-        this.sing=true;
+      this.sing = !this.sing;
     },
     send(Username,Password,Email){
       this.$emit('send',Username,Password,Email);
+    },
+    sing_up(groups,Username){
+      return this.$emit('sing_up',groups,Username);
+    },
+    sing_in(Username){
+
+      return this.$emit('sing_in',Username);
     }
   }
 }

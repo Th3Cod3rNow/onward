@@ -1,11 +1,11 @@
 <template>
   <div class="dialog">
     <div class="reg">
-      <my-inp class="in" placeholder="Username"></my-inp>
-      <my-inp class="in" placeholder="Password"></my-inp>
+      <my-inp @input="user" class="in" placeholder="Username"></my-inp>
+      <my-inp @input="pass"  class="in" placeholder="Password"></my-inp>
       <my-btn
         @click="SendUser"
-      >Sing In</my-btn>
+      >Sing up</my-btn>
 
       <my-btn
           @click="$emit('swap')"
@@ -16,15 +16,30 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "my-singup",
-  props:{
-    Username:[String],
-    Password:[String]
+  data(){
+    return{
+      Username: '',
+      Password: ''
+    }
   },
   methods:{
-    SendUser(){
-      this.$emit('send',this.Username,this.Password)
+    async SendUser(){
+      const res = await axios.get('http://127.0.0.1:8888/login/'+'Username='+this.Username+'&Password='+this.Password);
+
+      if(res.data.status==='success')
+        return this.$emit('success',res.data.groups,this.Username);
+      else
+        return this.$emit('not');
+    },
+    user(event){
+      this.Username=event.target.value;
+    },
+    pass(event){
+      this.Password=event.target.value;
     }
   }
 }

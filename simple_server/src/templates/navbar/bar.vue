@@ -1,11 +1,17 @@
 <template>
 <div class="bar">
+
   <my-group v-for="group in groups"
     v-bind:key="group.id"
     v-bind:group="group"
             @click="$emit('go',group)"
   ></my-group>
-  <my-entry v-if="show" @send="entry"></my-entry>
+  <my-entry
+      v-if="show"
+      @sing_in="sing_in"
+      @sing_up="sing_up"
+
+  ></my-entry>
   <my-btn
       @click="this.show=true"
       v-else-if="btnshow">sing up</my-btn>
@@ -30,10 +36,13 @@ export default {
     }
   },
   methods:{
-    entry(Username,Password,Email){
-      this.btnshow=false;
-      this.show=false;
-      return this.$emit('send',Username,Password,Email);
+    sing_up(groups,Username){
+      this.show = false;
+      return this.$emit('sing_up',groups,Username);
+    },
+    sing_in(Username){
+      this.show = false;
+      return this.$emit('sing_up',Username);
     }
   }
 }

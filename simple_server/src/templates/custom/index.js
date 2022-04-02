@@ -8,6 +8,7 @@ import full_task from "@/templates/task/full_task";
 import bar from "@/templates/navbar/bar";
 import all_tasks from "@/templates/task/all_tasks";
 import group from "@/templates/navbar/group";
+import addtask from "@/templates/task/addtask";
 
 export default [
     Btn,
@@ -20,4 +21,5 @@ export default [
     bar,
     all_tasks,
     group,
+    addtask
 ]

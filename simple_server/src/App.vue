@@ -5,7 +5,8 @@
           <my-bar
           v-bind:groups="this.groups"
           @go="changegroup"
-          @send="reglog"
+          @sing_up="sing_up"
+          @sing_in="sing_in"
           ></my-bar>
     </div>
 
@@ -24,10 +25,12 @@
   @click="getTasks"
   >send</my-btn>
   </div>
+  <div>{{groups}}</div>
 </template>
 
 <script>
-import axios from 'axios'
+
+
 export default {
   name: 'App',
   components: {},
@@ -35,8 +38,8 @@ export default {
     return {
       user:{
         email:'',
-        name:'',
-        password: ''
+        name:'Nikita',
+        password: '123456'
       },
       opened:{
           type:Object
@@ -57,39 +60,16 @@ export default {
       if(this.op)
         this.op = false
     },
-    async getTasks(){
-          try{
-            const res = await axios.post('http://127.0.0.1:8888/Groups',{
-            method: 'POST',
-                headers:{
-              'Content-Type':'application/json'
-            },
-              credentials: 'include',
-              body: JSON.stringify({
-                username: this.username,
-                password: this.password
-              })
-            })
-              const data = await res.json()
-              this.groups = data.groups;
-              console.log(data)
-          }catch (e){
-                alert('error')
-          }
+    sing_up(groups,Username){
+      this.groups=groups;
+      this.user.name=Username;
     },
-    mounted(){
-      this.getTasks();
+    sing_in(Username){
+      this.user.name=Username;
     },
     changegroup(group){
       this.group = group;
     },
-    reglog(Username,Password,Email){
-      this.user.name=Username;
-      this.user.password=Password;
-      if(Email.length>0)
-        this.user.email=Email;
-
-    }
 
   }
 }

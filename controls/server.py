@@ -44,23 +44,19 @@ def corsify_actual_response(response):
 
 # app.config['SET_SECRET_KEY'] = 'key'
 
-@app.route('/Groups', methods=['GET', 'POST'])
-def all_books():
+@app.route('/login/Username=<string:username>&Password=<string:password>', methods=['GET'])
+def data(username,password):
     print(request.method)
     if request.method == 'GET':
-        return corsify_actual_response(jsonify(
-            {
-                'status': 'success',
-                'groups': GROUPS
-            }
-
-        ))
-    if request.method == 'POST':
-        username = request.args.get("username")
-        password = request.args.get("password")
         user = controller.log_in(username, password)
         if user:
-            return GROUPS
+            return corsify_actual_response(jsonify(
+                {
+                    'status': 'success',
+                    'groups': GROUPS
+                }))
+
+
 
 
 # @app.route('/query', methods=['POST'])
