@@ -14,6 +14,7 @@ controller = main_controller.Controller()
 Handler = SimpleHTTPRequestHandler
 httpd = HTTPServer(("", PORT), Handler)
 
+
 def GROUPS(username, password):
     groups = list()
     user = controller.log_in(username, password)
@@ -21,12 +22,13 @@ def GROUPS(username, password):
         for ID in user[6].split():
             group = controller.get_group_by("group_id", str(ID))
             groups.append({
-                "id":ID,
-                "name":group[3],
+                "id": ID,
+                "name": group[3],
                 "tasks": group[1].split(),
                 "users": group[2].split()
             })
     return groups
+
 
 print(GROUPS)
 app = Flask(__name__)
@@ -47,28 +49,16 @@ def corsify_actual_response(response):
 
 # app.config['SET_SECRET_KEY'] = 'key'
 
-@app.route('/Groups', methods=['GET', 'OPTIONS'])
-def all_books():
+@app.route('/login/Username=<string:username>&Password=<string:password>', methods=['GET'])
+def all_books(username, password):
     if request.method == 'GET':
         return corsify_actual_response(jsonify(
             {
                 'status': 'success',
-                'groups': GROUPS
+                'groups': GROUPS(username, password)
             }
 
         ))
-    elif request.method == 'OPTIONS':
-        print(123)
-        data = request.get_json()
-        username = data["username"]
-        password = data["password"]
-        print(username, password)
-        user = controller.log_in(username, password)
-        if user:
-            return corsify_actual_response(jsonify({
-                "status": "success",
-                "groups": GROUPS
-            }))
 
 
 # Создание пользователя
@@ -85,9 +75,11 @@ def create_user(username: str, password: str):
                 return corsify_actual_response(jsonify({
                     "status": "user_already_exists"
                 }))
+
+
 # Создание задания
 @app.route('---', methods=['GET'])
-def create_task(name, description, performer, group, author_id = 0):
+def create_task(name, description, performer, group, author_id=0):
     if request.method == 'GET':
         task_id = controller.create_task(author_id, name)
         controller.update_task(int(task_id), {"description": description,
@@ -97,6 +89,7 @@ def create_task(name, description, performer, group, author_id = 0):
             "status": "success"
         }))
 
+
 # Создаиние группы
 @app.route('---', methods=["GET"])
 def create_group(name):
@@ -105,7 +98,6 @@ def create_group(name):
         return corsify_actual_response(jsonify({
             "status": "success"
         }))
-
 
 
 app.run(port=8888, host='127.0.0.1')
