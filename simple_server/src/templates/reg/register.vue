@@ -30,7 +30,7 @@ export default {
    async SendUser() {
      const res = await axios.get('http://127.0.0.1:8888/createUser/'+'Username='+this.Username+'&Password='+this.Password);
      if(res.data.status==='success')
-        return this.$emit('success',this.Username);
+        return this.$emit('success',this.Username,this.Password);
      else
        return  this.$emit('not',"выберете другое имя");
    },

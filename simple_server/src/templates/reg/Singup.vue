@@ -30,7 +30,7 @@ export default {
       const res = await axios.get('http://127.0.0.1:8888/login/'+'Username='+this.Username+'&Password='+this.Password);
 
       if(res.data.status==='success')
-        return this.$emit('success',res.data.groups,this.Username);
+        return this.$emit('success',res.data.groups,this.Username,this.Password);
       else
         return this.$emit('not','пользовательне найден');
     },

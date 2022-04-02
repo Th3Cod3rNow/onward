@@ -35,6 +35,8 @@
 <script>
 
 
+import axios from "axios";
+
 export default {
   name: 'App',
   components: {},
@@ -66,19 +68,30 @@ export default {
       if(this.op)
         this.op = false
     },
-    sing_up(groups,Username){
+    sing_up(groups,Username,Password){
       this.groups=groups;
       this.user.name=Username;
+      this.user.password=Password;
     },
-    sing_in(Username){
+    sing_in(Username,Password){
       this.user.name=Username;
+      this.user.password=Password;
     },
     changegroup(group){
       this.group = group;
     },
     add_task(task,idG){
-      let index = this.groups.findIndex(item=>item.id===idG);
-      this.groups[index].tasks.append(task);
+      this.group.tasks.append(task);
+      console.log(task);
+      this.group.id=idG;
+      this.SendUser();
+
+    },
+    async SendUser(){
+      const res = await axios.get('http://127.0.0.1:8888/login/'+'Username='+this.user.name+'&Password='+this.user.password);
+
+      if(res.data.status==='success')
+        this.groups=res.data.groups;
     }
 
   }

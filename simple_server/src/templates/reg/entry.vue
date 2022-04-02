@@ -43,12 +43,12 @@ export default {
     send(Username,Password,Email){
       this.$emit('send',Username,Password,Email);
     },
-    sing_up(groups,Username){
-      return this.$emit('sing_up',groups,Username);
+    sing_up(groups,Username,Password){
+      return this.$emit('sing_up',groups,Username,Password);
     },
-    sing_in(Username){
+    sing_in(Username,Password){
 
-      return this.$emit('sing_in',Username);
+      return this.$emit('sing_in',Username,Password);
     },
     message(mess){
       this.show_message=true;

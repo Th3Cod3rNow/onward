@@ -48,13 +48,13 @@ export default {
     }
   },
   methods:{
-    sing_up(groups,Username){
+    sing_up(groups,Username,Password){
       this.show = false;
       return this.$emit('sing_up',groups,Username);
     },
-    sing_in(Username){
+    sing_in(Username,Password){
       this.show = false;
-      return this.$emit('sing_up',Username);
+      return this.$emit('sing_in',Username,Password);
     }
   }
 }
