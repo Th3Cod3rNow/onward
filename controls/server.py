@@ -41,6 +41,7 @@ def USER(user):
     }
     return user_dict
 
+
 print(GROUPS)
 app = Flask(__name__)
 
@@ -80,6 +81,7 @@ def all_books(username, password):
 
             ))
 
+
 # Создание пользователя
 @app.route('/createUser/Username=<string:username>&Password=<string:password>', methods=['GET'])
 def create_user(username: str, password: str):
@@ -96,14 +98,16 @@ def create_user(username: str, password: str):
 
 
 # Создание задания
-@app.route('/addTask/Username=<string:author_name>&Taskname=<string:name>&Body=<string:description>&idGroup=<int:group_id>', methods=['GET'])
+@app.route(
+    '/addTask/Username=<string:author_name>&Taskname=<string:name>&Body=<string:description>&idGroup=<int:group_id>',
+    methods=['GET'])
 def add_task(author_name, name, description, group_id):
     if request.method == 'GET':
         author = controller.get_user_by("user_name", author_name)
         author_id = author[0]
         task_id = controller.create_task(author_id, name)
         task = controller.update_task(int(task_id), {"description": description,
-                                              "group_id": group_id})
+                                                     "group_id": group_id})
         if task:
             group = controller.get_group_by("group_id", group_id)
             if group:
@@ -114,7 +118,11 @@ def add_task(author_name, name, description, group_id):
                 return corsify_actual_response(jsonify({
                     "status": "success",
                     "groups": GROUPS(author[1], author[2]),
-                    "group_id": group_id
+                    "group": {"group_id": group_id,
+                                 "name": group[3],
+                                 "tasks": [controller.get_task_by("task_id", int(task)) for task in group[1].split()],
+                                 "users": group[2].split()
+                                 }
                 }))
             else:
                 return corsify_actual_response(jsonify({
@@ -124,6 +132,7 @@ def add_task(author_name, name, description, group_id):
             return corsify_actual_response(jsonify({
                 "status": "error"
             }))
+
 
 @app.route('/addGroup/name=<string:name>&author_id=<int:author_id>', methods=["GET"])
 def add_group(self, name, author_id):
@@ -141,6 +150,7 @@ def add_group(self, name, author_id):
             }))
         else:
             "group_already_exist"
+
 
 '''
 # Создаиние группы
