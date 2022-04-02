@@ -51,8 +51,11 @@ class Controller:
 
     def create_user(self, user_name: str, password: str):
         if user_name and password:
-            user = self.BD.insert_user(user_name, password)
-            return user
+            try:
+                user = self.BD.insert_user(user_name, password)
+                return user
+            except sqlite3.IntegrityError:
+                return False
         return False
 
     def update_user_base_params(self, user_id, params):
