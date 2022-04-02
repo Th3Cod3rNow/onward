@@ -9,6 +9,7 @@ import bar from "@/templates/navbar/bar";
 import all_tasks from "@/templates/task/all_tasks";
 import group from "@/templates/navbar/group";
 import addtask from "@/templates/task/addtask";
+import vindow_task_add from "@/templates/task/vindow_task_add";
 
 export default [
     Btn,
@@ -21,5 +22,6 @@ export default [
     bar,
     all_tasks,
     group,
-    addtask
+    addtask,
+    vindow_task_add
 ]

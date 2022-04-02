@@ -71,7 +71,7 @@ def create_user(username: str, password: str):
                 return corsify_actual_response(jsonify({
                     "status": "success"
                 }))
-            else
+            else:
                 return corsify_actual_response(jsonify({
                     "status": "user_already_exists"
                 }))
@@ -94,7 +94,7 @@ def add_task(author_name, name, description, group_id):
                 "status": "error"
             }))
 
-
+'''
 # Создаиние группы
 @app.route('---', methods=["GET"])
 def create_group(name):
@@ -105,4 +105,6 @@ def create_group(name):
         }))
 
 
+
+'''
 app.run(port=8888, host='127.0.0.1')

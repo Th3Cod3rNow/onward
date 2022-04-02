@@ -21,6 +21,11 @@
       v-bind:task="opened"
       @close="changeop"
     ></full-task>
+  <window-task-add
+      v-if="adding"
+      @close="changeop"
+  >
+  </window-task-add>
   <my-btn
   @click="getTasks"
   >send</my-btn>
@@ -45,7 +50,7 @@ export default {
           type:Object
       },
       op: false,
-
+      adding:false,
 
       group:{},
       groups: []

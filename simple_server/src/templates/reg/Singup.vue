@@ -1,18 +1,13 @@
 <template>
-  <div class="dialog">
-    <div class="reg">
       <my-inp @input="user" class="in" placeholder="Username"></my-inp>
       <my-inp @input="pass"  class="in" placeholder="Password"></my-inp>
       <my-btn
         @click="SendUser"
-      >Sing up</my-btn>
+      >Sing in</my-btn>
 
       <my-btn
           @click="$emit('swap')"
       >swap</my-btn>
-    </div>
-
-  </div>
 </template>
 
 <script>
@@ -33,7 +28,7 @@ export default {
       if(res.data.status==='success')
         return this.$emit('success',res.data.groups,this.Username);
       else
-        return this.$emit('not');
+        return this.$emit('not','пользовательне найден');
     },
     user(event){
       this.Username=event.target.value;

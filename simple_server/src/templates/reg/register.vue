@@ -1,18 +1,13 @@
 <template>
-  <div class="dialog">
-      <div class="reg">
-          <my-inp @input="mail" class="in" placeholder="Email"></my-inp>
           <my-inp @input="user" class="in" placeholder="Username"></my-inp>
           <my-inp @input="pass" class="in" placeholder="Password"></my-inp>
           <my-btn
             @click="SendUser"
-          >Sing In</my-btn>
+          >Sing up</my-btn>
           <my-btn
               @click="$emit('swap')"
           >swap</my-btn>
-      </div>
 
-  </div>
 </template>
 
 <script>
@@ -23,22 +18,18 @@ export default {
   components: {},
   data(){
     return {
-      Email: '',
       Username: '',
       Password: ''
     }
   },
   methods:{
    async SendUser() {
-     const res = await axios.get('http://127.0.0.1:8888/createUser/'+'Email='+this.Email+'&Username='+this.Username+'&Password='+this.Password);
+     const res = await axios.get('http://127.0.0.1:8888/createUser/'+'Username='+this.Username+'&Password='+this.Password);
      if(res.data.status==='success')
         return this.$emit('success',this.Username);
      else
-       return  this.$emit('not');
+       return  this.$emit('not',"выберете другое имя");
    },
-    mail(event){
-     this.Email=event.target.value;
-    },
     user(event){
       this.Username=event.target.value;
     },
