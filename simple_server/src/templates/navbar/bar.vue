@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 10vw;height: 100vh; background: #c4631c">
+  <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 10vw;height: 100%; background: #c4631c">
     <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
       <span class="fs-5 fw-semibold" style="color: white">List group</span>

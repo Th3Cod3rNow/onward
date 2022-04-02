@@ -113,7 +113,7 @@ def add_task(author_name, name, description, group_id):
             print(group, group_id)
             if group:
                 group_tasks = group[1].split()
-                group_tasks.append(str(task_id))
+                group_tasks.append(str(int(task_id)))
                 new_tasks = ' '.join(list(set(group_tasks)))
                 controller.update_group(int(group_id), {"task_list": new_tasks})
                 print(new_tasks,task_id)
