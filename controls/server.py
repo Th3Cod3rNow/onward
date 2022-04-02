@@ -52,14 +52,22 @@ def corsify_actual_response(response):
 @app.route('/login/Username=<string:username>&Password=<string:password>', methods=['GET'])
 def all_books(username, password):
     if request.method == 'GET':
-        return corsify_actual_response(jsonify(
-            {
-                'status': 'success',
-                'groups': GROUPS(username, password)
-            }
+        user = controller.get_user_by("user_name", username)
+        if user:
+            return corsify_actual_response(jsonify(
+                {
+                    'status': 'success',
+                    'groups': GROUPS(username, password)
+                }
 
-        ))
+            ))
+        else:
+            return corsify_actual_response(jsonify(
+                {
+                    'status': 'user_doesnt_exist'
+                }
 
+            ))
 
 # Создание пользователя
 @app.route('/createUser/Username=<string:username>&Password=<string:password>', methods=['GET'])
