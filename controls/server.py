@@ -94,7 +94,8 @@ def add_task(author_name, name, description, group_id):
                                               "group_id": group_id})
         if task:
             return corsify_actual_response(jsonify({
-                "status": "success"
+                "status": "success",
+                "id": task_id
             }))
         else:
             return corsify_actual_response(jsonify({
