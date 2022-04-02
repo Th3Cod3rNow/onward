@@ -9,7 +9,7 @@
       <hr>
       <my-inp @input="descr" placeholder="Описание"></my-inp>
       <hr>
-      <my-btn @click="addTask"></my-btn>
+      <my-btn @click="addTask">add_task</my-btn>
     </div>
   </div>
 </template>
