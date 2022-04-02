@@ -113,7 +113,8 @@ def add_task(author_name, name, description, group_id):
                 controller.update_task(int(task_id), {"task_list": new_tasks})
                 return corsify_actual_response(jsonify({
                     "status": "success",
-                    "groups": GROUPS(author[1], author[2])
+                    "groups": GROUPS(author[1], author[2]),
+                    "group_id": group_id
                 }))
             else:
                 return corsify_actual_response(jsonify({
