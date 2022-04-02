@@ -120,7 +120,7 @@ def add_task(author_name, name, description, group_id):
                     "groups": GROUPS(author[1], author[2]),
                     "group": {"group_id": group_id,
                                  "name": group[3],
-                                 "tasks": new_tasks,
+                                 "tasks": [controller.get_task_by("task_id", int(task)) for task in new_tasks],
                                  "users": group[2].split()
                                  }
                 }))
@@ -134,19 +134,25 @@ def add_task(author_name, name, description, group_id):
             }))
 
 
-@app.route('/addGroup/name=<string:name>&author_id=<int:author_id>', methods=["GET"])
+@app.route('/addGroup/Groupname=<string:name>&Userid=<int:author_id>', methods=["GET"])
 def add_group(self, name, author_id):
     if request.method == 'GET':
         user = controller.get_user_by("user_id", author_id)
         group_id = controller.create_group(name)
         if group_id and user:
+            group = controller.get_group_by("group_id", int(group_id))
             user_groups = user[6].split()
             user_groups.append(str(group_id))
             new_groups = ' '.join(list(set(user_groups)))
             controller.update_task(int(group_id), {"group_id": new_groups})
             return corsify_actual_response(jsonify({
                 "status": "success",
-                "user": GROUPS(user[1], user[2])
+                "groups": GROUPS(user[1], user[2]),
+                                 "group": {"group_id": group_id,
+                                 "name": group[3],
+                                 "tasks": [controller.get_task_by("task_id", int(task)) for task in group[1].split()],
+                                 "users": group[2].split()
+                                 }
             }))
         else:
             "group_already_exist"
