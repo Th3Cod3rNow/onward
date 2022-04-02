@@ -31,7 +31,7 @@ ready = {
 def chatting(update, context):
     global STATE
     data = {"entering", "enter_group_name", "enter_in_group", "exit_group", "task_name", "description_task",
-            "group_task", "task_deadline", "take_task", "task_info", "complete_task"}
+            "group_task", "task_deadline", "take_task", "task_info", "complete_task", "register"}
     for i in data:
         if i not in context.user_data:
             context.user_data[i] = False
@@ -65,13 +65,31 @@ def chatting(update, context):
     elif context.user_data["complete_task"]:
         complete_task(update, context)
         context.user_data["complete_task"] = False
+    elif context.user_data["register"]:
+        register(update, context)
+        context.user_data["register"] = False
+
     else:
         update.message.reply_text("Не понял вас")
 
-    for i in data:
-        if i not in context.user_data:
-            context.user_data[i] = False
+        for i in data:
+            if i not in context.user_data:
+                context.user_data[i] = False
 
+def register(update, context):
+    body = update["message"]["text"].split('\n')
+    if len(body) == 2:
+        reg = controller.create_user(body[0], body[1])
+        if reg:
+            user = controller.log_in(body[0], body[1], telegram_id=update["message"]["from_user"]["id"])
+            if user:
+                update.message.reply_text("Регистрация и вход выполнены")
+            else:
+                update.message.reply_text("Произошла ошибка")
+        else:
+            update.message.reply_text("Ошибка. Возможно аккаунт с таким именем уже существует")
+    else:
+        update.message.reply_text("Проверьте формат ввода")
 def complete_task(update, context):
     task_id = update.message["text"]
     if task_id.isdigit():
@@ -140,15 +158,14 @@ def task_add_group(update, context, task_id):
         upd_task = controller.update_task(int(task_id), {"group_id": group_id})
         group = controller.get_group_by("group_id", int(group_id))
         print(group, "task_add_group", upd_task)
-        if group is not None and upd_task:
+        if group and upd_task:
             new_tasks = list(set(group[1].split()))
             new_tasks.append(str(task_id))
             upd_group = controller.update_group(group_id, params={"task_list": ' '.join(list(set(new_tasks)))})
             if upd_group:
                 context.user_data["task_deadline"] = task_id
-                update.message.reply_text("Группа создана")
-
-        elif group is None:
+                update.message.reply_text("Задание создано. ID задания: "+str(task_id))
+        elif not group:
             upd_task = controller.update_task(task_id, {"group_id": 0})
             update.message.reply_text("Такой группы не существует")
 
@@ -201,7 +218,7 @@ def enter_in_group(update, context):
 def create_group(update, context):
     group = controller.create_group(update["message"]["text"])
     if group:
-        update.message.reply_text("Группа создана")
+        update.message.reply_text("Группа создана. ID группы:" + str(group))
     else:
         update.message.reply_text("Ошибка. Возможно группа с таким названием уже существует")
 
@@ -248,7 +265,8 @@ def buttons(update, context):
         register_info(update, context)
 
 def register_info(update, context):
-    update.callback_query.message.reply_text("Введите имя пользователя и пароль через строчку. Пример:\n")
+    context.user_data["register"] = True
+    update.callback_query.message.reply_text("Введите имя пользователя и пароль через строчку. Пример:\nuser\npassword")
 
 def complete_task_info(update, context):
     context.user_data['complete_task'] = True
@@ -301,14 +319,17 @@ def exit_group(update, context):
     elif user:
         group_id = int(group_id)
         if user[6]:
-            new_groups = list(set(user[6].split()) - set(str(group_id)))
+            new_groups = list(set(user[6].split()) - {str(group_id)})
             new_groups = ' '.join(list(set(new_groups)))
             controller.update_user_base_params(user[0], {"group_id": new_groups})
             group = controller.get_group_by("group_id", int(group_id))
-            new_users = list(set(group[2].split()) - set(str(user[0])))
-            new_users = ' '.join(list(set(new_users)))
-            controller.update_group(group_id, {"user_list": new_users})
-            update.message.reply_text("Вы вышли из группы")
+            if group:
+                new_users = list(set(group[2].split()) - {str(user[0])})
+                new_users = ' '.join(list(set(new_users)))
+                controller.update_group(group_id, {"user_list": new_users})
+                update.message.reply_text("Вы вышли из группы")
+            else:
+                update.message.reply_text("Такой группы не существует")
         else:
             update.message.reply_text("Вы не состоите ни в одной группе")
     else:
@@ -335,7 +356,7 @@ def task_list(update, context):
         text = "Вот список заданий ваших групп:\n"
         print(groups)
         for group in groups:
-            text += "Группа №" + str(group) + "(" + controller.get_group_by("group_id", int(group))[3] + "):\n"
+            text += "Группа №" + str(group) + "(" + controller.get_group_by("group_id", group)[3] + "):\n"
             tasks = controller.get_tasks_by("group_id", group)
             for task in tasks:
                 addition = ""

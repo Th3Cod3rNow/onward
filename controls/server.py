@@ -69,15 +69,19 @@ def all_books():
 
 
 # Создание пользователя
-@app.route('---', methods=['GET'])
+@app.route('/createUser/Username=<string:username>&Password=<string:password>', methods=['GET'])
 def create_user(username: str, password: str):
     if request.method == "GET":
         if username and password:
-            controller.create_user(username, password)
-            return corsify_actual_response(jsonify({
-                "status": "success",
-                "groups": GROUPS # Надо или нет хз
-            }))
+            user = controller.create_user(username, password)
+            if user:
+                return corsify_actual_response(jsonify({
+                    "status": "success"
+                }))
+            else
+                return corsify_actual_response(jsonify({
+                    "status": "user_already_exists"
+                }))
 # Создание задания
 @app.route('---', methods=['GET'])
 def create_task(name, description, performer, group, author_id = 0):
@@ -98,5 +102,7 @@ def create_group(name):
         return corsify_actual_response(jsonify({
             "status": "success"
         }))
+
+
 
 app.run(port=8888, host='127.0.0.1')
