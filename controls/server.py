@@ -112,7 +112,7 @@ def add_task(author_name, name, description, group_id):
             group = controller.get_group_by("group_id", group_id)
             if group:
                 group_tasks = group[1].split()
-                group_tasks.append(str(task_id))
+                group_tasks.append(str(int(task_id)))
                 new_tasks = ' '.join(list(set(group_tasks)))
                 controller.update_group(int(group_id), {"task_list": new_tasks})
                 return corsify_actual_response(jsonify({
@@ -120,7 +120,7 @@ def add_task(author_name, name, description, group_id):
                     "groups": GROUPS(author[1], author[2]),
                     "group": {"group_id": group_id,
                                  "name": group[3],
-                                 "tasks": [controller.get_task_by("task_id", int(task)) for task in new_tasks],
+                                 "tasks": [controller.get_task_by("task_id", int(task)) for task in new_tasks.split()],
                                  "users": group[2].split()
                                  }
                 }))

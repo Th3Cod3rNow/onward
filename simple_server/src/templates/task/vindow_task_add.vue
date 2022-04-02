@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="full">
+    <div class="full" style="background: #363636; border: none">
       <button type="button" class="btn-close " aria-label="Close"
               @click="$emit('close')"
       ></button>
@@ -9,7 +9,7 @@
       <hr>
       <my-inp @input="descr" placeholder="Описание"></my-inp>
       <hr>
-      <my-btn @click="addTask">add_task</my-btn>
+      <my-btn @click="addTask" style="background: chocolate; border: none">add_task</my-btn>
     </div>
   </div>
 </template>

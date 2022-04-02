@@ -6,7 +6,7 @@
         ></button>
 
         <h3 style="color: white">{{task[1]}}</h3>
-        <hr style="background: dimgray; height: 0.25rem">
+        <hr style="background: chocolate; height: 0.25rem">
         <h4 style="color: lightgray">{{task[2]}}</h4>
         <hr style="background: dimgray; height: 0.25rem">
         <h5>{{task.status}}</h5>
