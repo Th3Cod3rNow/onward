@@ -1,6 +1,6 @@
 <template>
-  <a class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true"  style="-webkit-user-select: none;">
-    <div @click="click" class="d-flex w-100 align-items-center justify-content-between">
+  <a class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true"  style="-webkit-user-select: none; background:  #D56A1EFF; border: none">
+    <div @click="click" class="d-flex w-100 align-items-center justify-content-between" style="background:  #D56A1EFF; border: none">
       <strong class="mb-1">{{ group.name }}</strong>
     </div>
   </a>

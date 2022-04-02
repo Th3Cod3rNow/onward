@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 10vw;height: 100vh">
+  <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 10vw;height: 100vh; background: #c4631c">
     <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-      <span class="fs-5 fw-semibold">List group</span>
+      <span class="fs-5 fw-semibold" style="color: white">List group</span>
     </a>
     <div class="list-group list-group-flush border-bottom scrollarea">
       <my-entry
@@ -12,7 +12,7 @@
           @close="this.show=false"
       ></my-entry>
       <my-btn
-          style="width: 80%;margin: 10%"
+          style=""
 
           @click="this.show=true"
           v-else-if="btnshow">sing up
@@ -65,5 +65,8 @@ export default {
   background: chocolate;
   width: 10vw;
   height: 100vh;
+}
+.btn{
+  background: #ef7722; border: none;
 }
 </style>
