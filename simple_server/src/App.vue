@@ -35,7 +35,6 @@
 <script>
 
 
-import axios from "axios";
 
 export default {
   name: 'App',
@@ -80,20 +79,10 @@ export default {
     changegroup(group){
       this.group = group;
     },
-    add_task(task,idG){
-      this.group.tasks.append(task);
-      console.log(task);
-      this.group.id=idG;
-      this.SendUser();
-
-    },
-    async SendUser(){
-      const res = await axios.get('http://127.0.0.1:8888/login/'+'Username='+this.user.name+'&Password='+this.user.password);
-
-      if(res.data.status==='success')
-        this.groups=res.data.groups;
+    add_task(groups,group){
+      this.groups = groups;
+      this.group = group;
     }
-
   }
 }
 </script>

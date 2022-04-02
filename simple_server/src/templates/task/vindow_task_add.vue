@@ -35,11 +35,8 @@ export default {
   methods:{
     async addTask(){
       const res =await axios.get('http://127.0.0.1:8888/addTask/'+'Username='+this.Username+'&Taskname='+ this.task.name + '&Body=' + this.task.body + '&idGroup='+ this.idG);
-      if(res.dara.status ==='success'){
-          this.task.id = res.data.id;
-          this.task.username = this.Username;
-          console.log(this.task);
-          return this.$emit('add',this.task,this.idG);
+      if(res.data.status ==='success'){
+          return this.$emit('success',res.data.groups,res.data.group);
       }
     },
     mane(event){

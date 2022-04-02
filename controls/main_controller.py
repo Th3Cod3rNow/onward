@@ -9,7 +9,7 @@ class Controller:
     def __init__(self):
         path = str(Path(__file__).resolve().parent.parent)
         sys.path.insert(0, path)
-        self.BD = data_base.DataBase(way=path + "/DATABASES/users")
+        self.BD = data_base.DataBase(way=path + "/DATABASES/users0")
 
         self.base_user_params = {
             "task_list",
