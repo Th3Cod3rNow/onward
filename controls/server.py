@@ -134,7 +134,7 @@ def add_task(author_name, name, description, group_id):
             }))
 
 
-@app.route('/addGroup/name=<string:name>&author_id=<int:author_id>', methods=["GET"])
+@app.route('/addGroup/Groupname=<string:name>&Userid=<int:author_id>', methods=["GET"])
 def add_group(self, name, author_id):
     if request.method == 'GET':
         user = controller.get_user_by("user_id", author_id)
