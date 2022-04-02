@@ -51,7 +51,7 @@ export default {
   max-width: 30%;
   max-height: 80%;
   -webkit-user-select: none;
-  background: blue;
+  background: #8888AA;
   padding: 20px;
   border-radius: 12px;
   display: flex;

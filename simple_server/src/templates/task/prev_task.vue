@@ -1,13 +1,15 @@
 <template>
   <div class="col">
     <div class="task" >
-      <div class="card">
-        <h3 class="card-text">{{ task[1] }}</h3>
-        <hr>
-        <h5 class="card-text" >{{task[2]}}</h5>
-      <my-btn
+      <div class="card" style="width: 18rem; border: none">
+        <div class="card-body" style="background: #313131">
+        <h5 class="card-title-text" style="color:white">{{ task[1] }}</h5>
+<!--        <hr>-->
+        <p class="card-text" style="color: whitesmoke">{{task[2]}}</p>
+      <a class="btn btn-success" style="background: #353535; border: none"
       @click="$emit('open',task)"
-      >open</my-btn>
+      >open</a>
+        </div>
         </div>
       </div>
     </div>

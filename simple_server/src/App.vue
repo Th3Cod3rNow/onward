@@ -83,7 +83,7 @@ export default {
 <style>
 .tmp{
     width: 10%;
-    background: white;
+    background: #1e1e1e;
 }
 .menu{
     margin: 3%;
@@ -91,6 +91,6 @@ export default {
 .page{
   display: flex;
   height: 100vh;
-  background: green;
+  background: #1a1a1a;
 }
 </style>

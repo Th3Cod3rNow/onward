@@ -5,10 +5,10 @@
         @click="$emit('close')"
         ></button>
 
-        <h3>{{task[1]}}</h3>
-        <hr>
-        <h4>{{task[2]}}</h4>
-        <hr>
+        <h3 style="color: white">{{task[1]}}</h3>
+        <hr style="background: dimgray; height: 0.25rem">
+        <h4 style="color: lightgray">{{task[2]}}</h4>
+        <hr style="background: dimgray; height: 0.25rem">
         <h5>{{task.status}}</h5>
       </div>
 </div>
@@ -40,10 +40,11 @@ export default {
   max-width: 30%;
   max-height: 80%;
   -webkit-user-select: none;
-  background: blue;
+  background: #363636;
   padding: 20px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+
 }
 </style>

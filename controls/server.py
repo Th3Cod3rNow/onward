@@ -24,7 +24,7 @@ def GROUPS(username, password):
             groups.append({
                 "id": ID,
                 "name": group[3],
-                "tasks": group[1].split(),
+                "tasks": [controller.get_task_by("task_id", int(task)) for task in group[1].split()],
                 "users": group[2].split()
             })
     return groups
@@ -79,10 +79,9 @@ def create_user(username: str, password: str):
                 return corsify_actual_response(jsonify({
                     "status": "success"
                 }))
-            else:
-                return corsify_actual_response(jsonify({
-                    "status": "user_already_exists"
-                }))
+            return corsify_actual_response(jsonify({
+                "status": "user_already_exists"
+            }))
 
 
 # Создание задания
