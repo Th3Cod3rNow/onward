@@ -24,13 +24,8 @@
   <window-task-add
       v-if="adding"
       @close="changeop"
-  >
-  </window-task-add>
-  <my-btn
-  @click="getTasks"
-  >send</my-btn>
-  </div>
-  <div>{{groups}}</div>
+  ></window-task-add>
+</div>
 </template>
 
 <script>

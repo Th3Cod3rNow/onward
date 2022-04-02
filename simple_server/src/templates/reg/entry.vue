@@ -11,12 +11,15 @@
         <div v-if="sing"><my-singup
             @success="sing_up"
             @swap="swap"
-            @not="message">
+            @not="message"
+            @close="close">
         </my-singup></div>
         <div v-else><my-register
             @success="sing_in"
             @swap="swap"
-            @not="message">
+            @not="message"
+            @close="close">
+
         </my-register></div>
   </div>
 </div>
@@ -50,6 +53,9 @@ export default {
     message(mess){
       this.show_message=true;
       this.err_mess=mess;
+    },
+    close(){
+      return this.$emit('close');
     }
   }
 }
@@ -80,7 +86,7 @@ export default {
   margin-bottom: 10px;
 }
 .btn{
-  margin: auto;
+  margin: 10px;
   flex-direction: row;
 }
 </style>
